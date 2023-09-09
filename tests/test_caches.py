@@ -1,12 +1,6 @@
 import subprocess
 from subprocess import Popen, PIPE, STDOUT
 
-# p = Popen(['myapp'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
-# stdout_data = p.communicate(input='data_to_write')[0]
-
-# hosts = subprocess.check_output("grep 'host:' /root/test.txt", shell=True)
-# print hosts
-
 class TERMINAL_COLORS:
         PURPLE    = '\033[95m'
         OKBLUE    = '\033[94m'
@@ -54,8 +48,6 @@ def run_cache(app2run, input_data):
 
         return stdout_data[0].decode()
         
-        
-        # check_output_data(stdout_data, right_n_hits)
 
 def test_cache(input_data, cache_app_name2run, ideal_cache_app_name2run=None, compare2ideal_cache=False):
         n_hits = 0

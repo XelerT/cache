@@ -23,12 +23,12 @@ namespace caches
                 std::list<std::pair<KeyType, T>>  in_cache_;
                 std::list<          KeyType>     out_cache_;
 
-                using list_iterator = typename std::list<std::pair<KeyType, T>>::iterator;
-                using out_list_iterator = typename std::list<KeyType>::iterator;
+                using data_list_iterator = typename std::list<std::pair<KeyType, T>>::iterator;
+                using out_list_iterator  = typename std::list<KeyType>::iterator;
 
-                std::unordered_map<KeyType, list_iterator>     hashtable_;
-                std::unordered_map<KeyType, list_iterator>  in_hashtable_;
-                std::unordered_map<KeyType, out_list_iterator> out_hashtable_;
+                std::unordered_map<KeyType, data_list_iterator> hot_hashtable_;
+                std::unordered_map<KeyType, data_list_iterator>  in_hashtable_;
+                std::unordered_map<KeyType, out_list_iterator>  out_hashtable_;
 
                 two_q(size_t size) : cache_capacity_(size), hot_cache_{} {                        
                         if (size < MIN_CACHE_CAPACITY) {
@@ -58,11 +58,11 @@ namespace caches
                 template <typename func>
                 void add_data2hot_cache (int key, func get_data) {
                         if (hot_cache_is_full()) {
-                                hashtable_.erase(hot_cache_.back().first);
+                                hot_hashtable_.erase(hot_cache_.back().first);
                                 hot_cache_.pop_back();
                         }
                         hot_cache_.emplace_front(key, get_data(key));
-                        hashtable_.emplace(key, hot_cache_.begin());
+                        hot_hashtable_.emplace(key, hot_cache_.begin());
                 }
 
                 void add_data2out_cache (int key) {
@@ -75,7 +75,7 @@ namespace caches
                 }
 
                 template <typename func>
-                void add_data_in_inCache (int key, func get_data) {
+                void add_data2in_cache (int key, func get_data) {
                         if (inCache_is_full()) {
                                 add_data2out_cache(in_cache_.back().first);
                                 in_hashtable_.erase(in_cache_.back().first);
@@ -87,8 +87,8 @@ namespace caches
 
                 template <typename func>
                 bool lookup_update (int key, func get_data) {
-                        auto hit = hashtable_.find(key);
-                        if (hit != hashtable_.end()) {
+                        auto hit = hot_hashtable_.find(key);
+                        if (hit != hot_hashtable_.end()) {
                                 auto hot_cache_head = hit->second;
                                 if (hot_cache_head != hot_cache_.begin())
                                         hot_cache_.splice(hot_cache_.end(), hot_cache_, hot_cache_head, std::next(hot_cache_head));
@@ -105,7 +105,7 @@ namespace caches
                         }
                         hit = in_hashtable_.find(key);
                         if (hit == in_hashtable_.end()) {
-                                add_data_in_inCache(key, get_data);
+                                add_data2in_cache(key, get_data);
                                 return false;
 
                         }
