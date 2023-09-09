@@ -12,11 +12,9 @@ enum CACHE_CONSTS {
         MIN_CACHE_CAPACITY = 4
 };
 
-#define $ printf("%d line; In func = %s\n", __LINE__, __PRETTY_FUNCTION__);
-
-namespace cache
+namespace caches
 {        
-        template <typename T, typename KeyType = int> struct Q2 {
+        template <typename T, typename KeyType = int> struct two_q {
                 size_t cache_capacity_        = 0;
                 size_t hot_cache_part_divider = 4;
                 size_t in_cache_part_divider  = 4;
@@ -32,14 +30,14 @@ namespace cache
                 std::unordered_map<KeyType, list_iterator>  in_hashtable_;
                 std::unordered_map<KeyType, out_list_iterator> out_hashtable_;
 
-                Q2(size_t size) : cache_capacity_(size) {                        
+                two_q(size_t size) : cache_capacity_(size), hot_cache_{} {                        
                         if (size < MIN_CACHE_CAPACITY) {
                                 std::cerr << "Minimum cache capacity is " << MIN_CACHE_CAPACITY << std::endl;
                                 exit(CACHE_CAPACITY_ERROR);
                         }
                 };
 
-                ~Q2() {};
+                ~two_q() {};
 
                 size_t hot_cache_capacity_ = cache_capacity_ / hot_cache_part_divider;
                 size_t in_cache_capacity_  = cache_capacity_ / in_cache_part_divider;
@@ -59,7 +57,6 @@ namespace cache
 
                 template <typename func>
                 void add_data2hot_cache (int key, func get_data) {
-                        std::cout << "Added " << key << " in hot" << std::endl;
                         if (hot_cache_is_full()) {
                                 hashtable_.erase(hot_cache_.back().first);
                                 hot_cache_.pop_back();
@@ -73,7 +70,6 @@ namespace cache
                                 out_hashtable_.erase(out_cache_.back());
                                 out_cache_.pop_back();
                         }
-                        std::cout << "Added " << key << " in out" << std::endl;
                         out_cache_.emplace_front(key);
                         out_hashtable_.emplace(key, out_cache_.begin());
                 }
@@ -85,41 +81,38 @@ namespace cache
                                 in_hashtable_.erase(in_cache_.back().first);
                                 in_cache_.pop_back();
                         }
-                        std::cout << "Added " << key << " in in" << std::endl;
-
                         in_cache_.emplace_front(key, get_data(key));
                         in_hashtable_.emplace(key, in_cache_.begin());
                 }
 
                 template <typename func>
-                bool cache_data (int key, func get_data) {
+                bool lookup_update (int key, func get_data) {
                         auto hit = hashtable_.find(key);
                         if (hit != hashtable_.end()) {
                                 auto hot_cache_head = hit->second;
                                 if (hot_cache_head != hot_cache_.begin())
                                         hot_cache_.splice(hot_cache_.end(), hot_cache_, hot_cache_head, std::next(hot_cache_head));
-                                std::cout << "data elem hot cache true:" << key << std::endl;
                         
                                 return true;
                         }
                         auto out_hit = out_hashtable_.find(key);
                         if (out_hit != out_hashtable_.end()) {
                                 add_data2hot_cache(key, get_data);
-                                printf("deleted %d from out\n", key);
                                 out_cache_.erase(out_hit->second);
                                 out_hashtable_.erase(out_hit);
+
                                 return true;
                         }
                         hit = in_hashtable_.find(key);
                         if (hit == in_hashtable_.end()) {
                                 add_data_in_inCache(key, get_data);
                                 return false;
+
                         }
                         return true;
                 }
         };
 };
 
-int* get_user_data       (size_t n_user_args, char *args[]);
-int  check_data_in_cache (cache::Q2<int> &cache, int *data, size_t n_data_elements);
+int  check_data_in_cache (caches::two_q<int> &cache, int *data, size_t n_data_elements);
 int  hash_data           (int data);
