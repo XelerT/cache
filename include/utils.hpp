@@ -7,3 +7,7 @@ enum ERRORS {
         CACHE_CAPACITY_ERROR = 0xBADCA4,
         UNKNOWN_ARGUMENTS    = 0xBADA44
 };
+
+enum CACHE_CONSTS {
+        MIN_2Q_CAPACITY = 4
+};
