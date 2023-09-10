@@ -29,10 +29,10 @@ def check_output_data(n_test, stdout_data, right_n_hits):
                       TERMINAL_COLORS.DEFAULT
                       )
         else:
-                print(TERMINAL_COLORS.ERROR                  + \
-                        f"Test {n_test} NOT Passed\n"        + \
-                        f"Hits: \n\t outputed={stdout_data}" + \
-                        f"\n\t right={right_n_hits}"         + \
+                print(TERMINAL_COLORS.ERROR                   + \
+                        f"Test {n_test} NOT Passed\n"         + \
+                        f"Hits: \n\t outputted={stdout_data}" + \
+                        f"\n\t right={right_n_hits}"          + \
                        TERMINAL_COLORS.DEFAULT
                        )
 

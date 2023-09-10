@@ -12,4 +12,4 @@ struct input_data_t {
         size_t n_data_elements = 0;
 };
 
-int get_user_data (input_data_t *inputed_data);
+int get_user_data (input_data_t *inputted_data);
