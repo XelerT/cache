@@ -38,6 +38,15 @@ void dump_2q_cache (caches::two_q<int> const &cache)
         std::cout << std::endl;
 }
 
+void dump_ideal_cache (caches::ideal<int> const &cache)
+{
+        std::cout << "cache (" << cache.cache_capacity_ << ") ";
+        for (auto it = cache.cache_.cbegin(); it != cache.cache_.cend(); it++) {
+                std::cout << "[" << it->second << "] ";
+        }
+        std::cout << std::endl;
+}
+
 int check_data_in_2q_cache (caches::two_q<int> &cache, int *data, size_t n_data_elements)
 {
         assert(data);
@@ -64,7 +73,7 @@ int check_data_in_ideal_cache (caches::ideal<int> &cache, int *data, size_t n_da
 
         for (size_t i = 0; i < n_data_elements; i++) {
                 bool is_in_cache = cache.lookup_update(hash_data(data[i]), get_data);
-                // dump_2q_cache(cache);
+                // dump_ideal_cache(cache);
 
                 if (is_in_cache) {
                         n_cache_hits++;

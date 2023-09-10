@@ -152,6 +152,9 @@ namespace caches
                                 }
                                 cache_.emplace_front(key, get_data(key));
                                 hashtable_.emplace(key, cache_.begin());
+
+                                data_occurrences_.erase(data_occurrence_hashtable_.find(key)->second);
+                                data_occurrence_hashtable_.erase(key);
                                 
                                 return false;
                         }
@@ -171,13 +174,20 @@ namespace caches
 
                         for (auto it = cache_.begin(); it != cache_.end(); it++) {
                                 elem_occurrences = data_occurrence_hashtable_.find(it->first);
+                                if (elem_occurrences == data_occurrence_hashtable_.end())
+                                        continue;
                                 if (*(elem_occurrences->second) > greatest_index) {
                                         greatest_index = *(elem_occurrences->second);
                                         cached_elem_iterator = it;
                                 }
                         }
-                        data_occurrences_.erase(elem_occurrences->second);
-                        cache_.erase(cached_elem_iterator);
+
+                        if (greatest_index) {
+                                cache_.erase(cached_elem_iterator);
+                                data_occurrences_.erase(elem_occurrences->second);
+                                data_occurrence_hashtable_.erase(elem_occurrences);
+                        } else
+                                cache_.pop_back();
                 }
         };
 };
