@@ -10,25 +10,26 @@
 
 namespace caches
 {
-        template <typename T, typename KeyType = int> 
+        template <typename T, typename key_type = int> 
         struct two_q 
         {
                 size_t cache_capacity_        = 0;
                 size_t hot_cache_part_divider = 4;
                 size_t in_cache_part_divider  = 4;
 
-                std::list<std::pair<KeyType, T>> hot_cache_ {};
-                std::list<std::pair<KeyType, T>>  in_cache_ {};
-                std::list<          KeyType>     out_cache_ {};
+                std::list<std::pair<key_type, T>> hot_cache_ {};
+                std::list<std::pair<key_type, T>>  in_cache_ {};
+                std::list<          key_type>     out_cache_ {};
 
-                using data_list_iterator = typename std::list<std::pair<KeyType, T>>::iterator;
-                using  out_list_iterator = typename std::list<KeyType>::iterator;
+                using data_list_iterator = typename std::list<std::pair<key_type, T>>::iterator;
+                using  out_list_iterator = typename std::list<key_type>::iterator;
 
-                std::unordered_map<KeyType, data_list_iterator> hot_hashtable_;
-                std::unordered_map<KeyType, data_list_iterator>  in_hashtable_;
-                std::unordered_map<KeyType, out_list_iterator>  out_hashtable_;
+                std::unordered_map<key_type, data_list_iterator> hot_hashtable_;
+                std::unordered_map<key_type, data_list_iterator>  in_hashtable_;
+                std::unordered_map<key_type, out_list_iterator>  out_hashtable_;
 
-                two_q (size_t size) : cache_capacity_(size) {                        
+                two_q (size_t size) : cache_capacity_(size)
+                {                        
                         if (size < MIN_2Q_CAPACITY) {
                                 std::cerr << "Minimum cache capacity is " << MIN_2Q_CAPACITY << std::endl;
                                 exit(CACHE_CAPACITY_ERROR);
@@ -41,20 +42,24 @@ namespace caches
                 size_t in_cache_capacity_  = cache_capacity_ / in_cache_part_divider;
                 size_t out_cache_capacity_ = cache_capacity_ - in_cache_capacity_ - hot_cache_capacity_;
 
-                bool hot_cache_is_full () {
+                bool hot_cache_is_full ()
+                {
                         return (hot_cache_.size() == hot_cache_capacity_);
                 }
 
-                bool inCache_is_full () {
+                bool inCache_is_full () 
+                {
                         return (in_cache_.size() == in_cache_capacity_);  
                 }
 
-                bool outCache_is_full () {
+                bool outCache_is_full () 
+                {
                         return (out_cache_.size() == out_cache_capacity_);
                 }
 
                 template <typename func>
-                void add_data2hot_cache (int key, func get_data) {
+                void add_data2hot_cache (int key, func get_data) 
+                {
                         if (hot_cache_is_full()) {
                                 hot_hashtable_.erase(hot_cache_.back().first);
                                 hot_cache_.pop_back();
@@ -63,7 +68,8 @@ namespace caches
                         hot_hashtable_.emplace(key, hot_cache_.begin());
                 }
 
-                void add_data2out_cache (int key) {
+                void add_data2out_cache (int key) 
+                {
                         if (outCache_is_full()) {
                                 out_hashtable_.erase(out_cache_.back());
                                 out_cache_.pop_back();
@@ -73,7 +79,8 @@ namespace caches
                 }
 
                 template <typename func>
-                void add_data2in_cache (int key, func get_data) {
+                void add_data2in_cache (int key, func get_data) 
+                {
                         if (inCache_is_full()) {
                                 add_data2out_cache(in_cache_.back().first);
                                 in_hashtable_.erase(in_cache_.back().first);
@@ -84,7 +91,8 @@ namespace caches
                 }
 
                 template <typename func>
-                bool lookup_update (int key, func get_data) {
+                bool lookup_update (int key, func get_data) 
+                {
                         auto hit = hot_hashtable_.find(key);
                         if (hit != hot_hashtable_.end()) {
                                 auto elem_iterator = hit->second;
