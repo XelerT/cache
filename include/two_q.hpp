@@ -24,9 +24,9 @@ namespace caches
                 using data_list_iterator = typename std::list<std::pair<key_type, T>>::iterator;
                 using  out_list_iterator = typename std::list<key_type>::iterator;
 
-                std::unordered_map<key_type, data_list_iterator> hot_hashtable_;
-                std::unordered_map<key_type, data_list_iterator>  in_hashtable_;
-                std::unordered_map<key_type, out_list_iterator>  out_hashtable_;
+                std::unordered_map<key_type, data_list_iterator> hot_hashtable_ {};
+                std::unordered_map<key_type, data_list_iterator>  in_hashtable_ {};
+                std::unordered_map<key_type, out_list_iterator>  out_hashtable_ {};
 
                 two_q (size_t size) : cache_capacity_(size)
                 {                        

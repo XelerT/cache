@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "include/caches.hpp" 
+#include "include/cache.hpp" 
 #include "include/ui.hpp"
 #include "include/utils.hpp"
 
@@ -13,7 +14,7 @@ int main (int argc, char *argv[])
         if (err)
                 return err;
 
-        int n_cache_hits = 0;
+        size_t n_cache_hits = 0;
 
         if ((argc == 2 && !strcmp(argv[1], "--tq")) || (argc == 3 && !strcmp(argv[2], "--tq"))) {
                 caches::two_q<int> cache{inputted_data.cache_capacity};                
@@ -24,9 +25,12 @@ int main (int argc, char *argv[])
                 n_cache_hits = check_data_in_ideal_cache(ideal_cache, inputted_data.data, inputted_data.n_data_elements);
         } else {
                 std::cerr << "Program options are: --tq, -i.\n";
+                user_data_dtor(&inputted_data);
                 return UNKNOWN_ARGUMENTS;
         }
         std::cout << n_cache_hits << std::endl;
+
+        user_data_dtor(&inputted_data);
 
         return 0;
 }

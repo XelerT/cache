@@ -122,10 +122,10 @@ if __name__ == "__main__":
         args = parser.parse_args()
 
         if args.tq:
-                test_cache(two_q_test_data,   "./two_q_cache", flags=["--tq"])
+                test_cache(two_q_test_data, "./caches", flags=["--tq"])
         elif args.ideal:
-                test_cache(ideal_test_data,   "./two_q_cache", flags=["-i"])
+                test_cache(ideal_test_data, "./caches", flags=["-i"])
         elif args.compare:
-                test_cache(comp_test_data, "./two_q_cache", flags=["--tq", "-i"], compare2ideal_cache=True)
+                test_cache(comp_test_data,  "./caches", flags=["--tq", "-i"], compare2ideal_cache=True)
         else:
                 parser.print_help()

@@ -4,9 +4,14 @@
 
 #include "../include/utils.hpp"
 #include "../include/caches.hpp"
+#include "../include/cache.hpp"
 #include "../include/ui.hpp"
 
-int get_data (int key)
+static void dump_2q_cache    (caches::two_q<int> const &cache);
+static void dump_ideal_cache (caches::ideal<int> const &cache);
+static int get_data          (int key);
+
+static int get_data (int key)
 {
         return key;
 }
@@ -16,7 +21,7 @@ int hash_data (int data)
         return data;
 }
 
-void dump_2q_cache (caches::two_q<int> const &cache)
+static void dump_2q_cache (caches::two_q<int> const &cache)
 {
         std::cout << "hot (" << cache.hot_cache_capacity_ << ") ";
         for (auto it = cache.hot_cache_.cbegin(); it != cache.hot_cache_.cend(); it++) {
@@ -37,7 +42,7 @@ void dump_2q_cache (caches::two_q<int> const &cache)
         std::cout << std::endl;
 }
 
-void dump_ideal_cache (caches::ideal<int> const &cache)
+static void dump_ideal_cache (caches::ideal<int> const &cache)
 {
         std::cout << "cache (" << cache.cache_capacity_ << ") ";
         for (auto it = cache.cache_.cbegin(); it != cache.cache_.cend(); it++) {
@@ -46,7 +51,7 @@ void dump_ideal_cache (caches::ideal<int> const &cache)
         std::cout << std::endl;
 }
 
-int check_data_in_2q_cache (caches::two_q<int> &cache, int *data, size_t n_data_elements)
+size_t check_data_in_2q_cache (caches::two_q<int> &cache, int *data, size_t n_data_elements)
 {
         assert(data);
 
@@ -64,7 +69,7 @@ int check_data_in_2q_cache (caches::two_q<int> &cache, int *data, size_t n_data_
         return n_cache_hits;
 }
 
-int check_data_in_ideal_cache (caches::ideal<int> &cache, int *data, size_t n_data_elements)
+size_t check_data_in_ideal_cache (caches::ideal<int> &cache, int *data, size_t n_data_elements)
 {
         assert(data);
 
