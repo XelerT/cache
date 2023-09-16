@@ -101,4 +101,6 @@ size_t run_cache (input_data_t *inputted_data, int cache2run)
                 
                 return check_data_in_ideal_cache(ideal_cache, inputted_data->data, inputted_data->n_data_elements);
         }
+
+        return UNKNOWN_ARGUMENTS;
 }
