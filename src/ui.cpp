@@ -1,5 +1,6 @@
 #include <iostream>
 #include <assert.h>
+#include <string.h>
 
 #include "../include/ui.hpp"
 #include "../include/utils.hpp"
@@ -37,4 +38,17 @@ void user_data_dtor (input_data_t *inputted_data)
                 free(inputted_data->data);
                 inputted_data->data = nullptr;
         }
+}
+
+int check_user_args (int argc, char **args)
+{
+        assert(args);
+
+        if (argc == 2 && !strcmp(args[1], "--tq"))
+                return RUN_2Q_CACHE;
+        else if (argc == 2 && !strcmp(args[1], "-i"))
+                return RUN_IDEAL_CACHE;
+
+        std::cerr << "Unknown program options. Use: \n\t--tq - run 2Q cache\n\t -i - run ideal cache.\n";
+        return UNKNOWN_ARGUMENTS;        
 }

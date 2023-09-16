@@ -6,6 +6,11 @@ enum USER_ARGS_INDEXES {
         FIRST_DATA_ELEMENT_INDEX = 3
 };
 
+enum USER_DATA {
+        RUN_2Q_CACHE,
+        RUN_IDEAL_CACHE
+};
+
 struct input_data_t {
         int *data              = nullptr;
         size_t cache_capacity  = 0;
@@ -14,3 +19,4 @@ struct input_data_t {
 
 int get_user_data   (input_data_t *inputted_data);
 void user_data_dtor (input_data_t *inputted_data);
+int check_user_args (int argc, char **args);

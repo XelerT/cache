@@ -86,3 +86,19 @@ size_t check_data_in_ideal_cache (caches::ideal<int> &cache, int *data, size_t n
 
         return n_cache_hits;
 }
+
+size_t run_cache (input_data_t *inputted_data, int cache2run)
+{
+        assert(inputted_data);
+
+        if (cache2run == RUN_2Q_CACHE) {
+                caches::two_q<int> cache{inputted_data->cache_capacity};                
+                
+                return check_data_in_2q_cache(cache, inputted_data->data, inputted_data->n_data_elements);
+        } else if (cache2run == RUN_IDEAL_CACHE) {
+                caches::ideal<int> ideal_cache{inputted_data->cache_capacity};
+                ideal_cache.parse_data(inputted_data->data, inputted_data->n_data_elements, hash_data);        
+                
+                return check_data_in_ideal_cache(ideal_cache, inputted_data->data, inputted_data->n_data_elements);
+        }
+}

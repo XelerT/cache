@@ -15,8 +15,8 @@ namespace caches
         {
                 size_t cache_capacity_ = 0;
 
-                std::list<std::pair<key_type, T>> cache_ {};
-                std::list<size_t> data_occurrences_ {}; 
+                std::list<std::pair<key_type, T>> cache_            {};
+                std::list<size_t>                 data_occurrences_ {}; 
 
                 using                data_list = typename std::list<size_t>;
                 using            list_iterator = typename std::list<std::pair<key_type, T>>::iterator;
@@ -50,11 +50,22 @@ namespace caches
                                 data_occurrence_hashtable_.erase(key);
                 }
 
+                bool data_will_occur_again (key_type key)
+                {
+                        if (data_occurrence_hashtable_[key].size() == 1)
+                                return false;
+                        else
+                                return true;
+                }
+
                 template <typename func>
                 bool lookup_update (key_type key, func get_data)
                 {
                         auto hit = hashtable_.find(key);
                         if (hit == hashtable_.end()) {
+                                if (!data_will_occur_again(key)) {
+                                        return false;
+                                }
                                 if (cache_is_full()) {
                                         delete_farthest_elem();
                                 }
