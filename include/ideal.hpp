@@ -25,8 +25,12 @@ namespace caches
                 std::unordered_map<key_type, list_iterator>             hashtable_ {};
                 std::unordered_map<key_type, data_list> data_occurrence_hashtable_ {};
 
-                ideal (size_t size) : cache_capacity_(size) {};
-                ~ideal() {};
+                ideal (size_t size) : cache_capacity_(size) {
+                        if (size < MIN_IDEAL_CACHE_CAPACITY) {
+                                std::cerr << "Minimum cache capacity is " << MIN_IDEAL_CACHE_CAPACITY << std::endl;
+                                exit(CACHE_CAPACITY_ERROR);
+                        }
+                };
 
                 bool cache_is_full ()
                 {
@@ -34,13 +38,13 @@ namespace caches
                 }
 
                 template <typename func>
-                void parse_data (T *data, size_t n_data_elements, func hash_data)
+                void parse_data (std::vector<T> &data, func hash_data)
                 {
                         data_occurrence_iterator occurrence_iter {};  
                         
-                        for (size_t i = 0; i < n_data_elements; i++) {
-                                occurrence_iter = data_occurrence_hashtable_.find(hash_data(data[i]));
-                                data_occurrence_hashtable_[hash_data(data[i])].emplace_back(i);
+                        for (auto it = data.cbegin(); it != data.cend(); it++) {
+                                occurrence_iter = data_occurrence_hashtable_.find(hash_data(*it));
+                                data_occurrence_hashtable_[hash_data(*it)].emplace_back(it - data.cbegin());
                         }
                 }
 

@@ -9,5 +9,6 @@ enum ERRORS {
 };
 
 enum CACHE_CONSTS {
-        MIN_2Q_CAPACITY = 4
+        MIN_2Q_CACHE_CAPACITY    = 4,
+        MIN_IDEAL_CACHE_CAPACITY = 1
 };

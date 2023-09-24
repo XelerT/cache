@@ -30,13 +30,11 @@ namespace caches
 
                 two_q (size_t size) : cache_capacity_(size)
                 {                        
-                        if (size < MIN_2Q_CAPACITY) {
-                                std::cerr << "Minimum cache capacity is " << MIN_2Q_CAPACITY << std::endl;
+                        if (size < MIN_2Q_CACHE_CAPACITY) {
+                                std::cerr << "Minimum cache capacity is " << MIN_2Q_CACHE_CAPACITY << std::endl;
                                 exit(CACHE_CAPACITY_ERROR);
                         }
                 };
-
-                ~two_q() {};
 
                 size_t hot_cache_capacity_ = cache_capacity_ / hot_cache_part_divider;
                 size_t in_cache_capacity_  = cache_capacity_ / in_cache_part_divider;

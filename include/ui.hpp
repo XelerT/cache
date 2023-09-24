@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 enum USER_ARGS_INDEXES {
         CACHE_CAPACITY_ARG_INDEX = 1,
         N_DATA_ELEMENT_INDEX     = 2,
@@ -11,12 +13,14 @@ enum USER_DATA {
         RUN_IDEAL_CACHE
 };
 
-struct input_data_t {
-        int *data              = nullptr;
-        size_t cache_capacity  = 0;
-        size_t n_data_elements = 0;
+struct input_data_t 
+{
+        public:
+                std::vector<int> data_;
+                size_t cache_capacity_;
+                size_t n_data_elements_;
+
+                input_data_t ();
 };
 
-int get_user_data   (input_data_t *inputted_data);
-void user_data_dtor (input_data_t *inputted_data);
 int check_user_args (int argc, char **args);
