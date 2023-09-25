@@ -56,10 +56,7 @@ namespace caches
 
                 bool data_will_occur_again (key_type key)
                 {
-                        if (data_occurrence_hashtable_[key].size() == 1)
-                                return false;
-                        else
-                                return true;
+                        return data_occurrence_hashtable_[key].size() != 1;
                 }
 
                 template <typename func>

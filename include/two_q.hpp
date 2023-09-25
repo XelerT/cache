@@ -56,7 +56,7 @@ namespace caches
                 }
 
                 template <typename func>
-                void add_data2hot_cache (int key, func get_data) 
+                void add_data2hot_cache (key_type key, func get_data) 
                 {
                         if (hot_cache_is_full()) {
                                 hot_hashtable_.erase(hot_cache_.back().first);
@@ -66,7 +66,7 @@ namespace caches
                         hot_hashtable_.emplace(key, hot_cache_.begin());
                 }
 
-                void add_data2out_cache (int key) 
+                void add_data2out_cache (key_type key) 
                 {
                         if (outCache_is_full()) {
                                 out_hashtable_.erase(out_cache_.back());
@@ -77,7 +77,7 @@ namespace caches
                 }
 
                 template <typename func>
-                void add_data2in_cache (int key, func get_data) 
+                void add_data2in_cache (key_type key, func get_data) 
                 {
                         if (inCache_is_full()) {
                                 add_data2out_cache(in_cache_.back().first);
@@ -89,7 +89,7 @@ namespace caches
                 }
 
                 template <typename func>
-                bool lookup_update (int key, func get_data) 
+                bool lookup_update (key_type key, func get_data) 
                 {
                         auto hit = hot_hashtable_.find(key);
                         if (hit != hot_hashtable_.end()) {
