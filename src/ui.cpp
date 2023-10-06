@@ -2,8 +2,8 @@
 #include <cassert>
 #include <cstring>
 
-#include "../include/ui.hpp"
-#include "../include/utils.hpp"
+#include "ui.hpp"
+#include "utils.hpp"
 
 input_data_t::input_data_t () {
         std::cin >> cache_capacity_;
@@ -32,5 +32,5 @@ int check_user_args (int argc, char **args)
                 return RUN_IDEAL_CACHE;
 
         std::cerr << "Unknown program options. Use: \n\t--tq - run 2Q cache\n\t -i - run ideal cache.\n";
-        return UNKNOWN_ARGUMENTS;        
+        return (int) ERRORS::UNKNOWN_ARGUMENTS;        
 }

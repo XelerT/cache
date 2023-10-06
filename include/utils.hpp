@@ -1,6 +1,6 @@
 #pragma once
 
-enum ERRORS {
+enum class ERRORS:int {
         ERROR                = 0xBADDED,
         WRONG_N_ARGUMENTS    = 0xBADA46,
         NULL_ALLOC           = 0xBADCA1,
