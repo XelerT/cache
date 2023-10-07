@@ -7,18 +7,18 @@
 
 using namespace std;
 
-int check_user_args (int argc, char **args)
+cache_type check_user_args (int argc, char **args)
 {
         assert(args);
 
         if (argc == 2 && !std::strcmp(args[1], "--tq"))
-                return RUN_2Q_CACHE;
+                return cache_type::RUN_2Q_CACHE;
         
         if (argc == 2 && !std::strcmp(args[1], "-i"))
-                return RUN_IDEAL_CACHE;
+                return cache_type::RUN_IDEAL_CACHE;
 
         std::cerr << "Unknown program options. Use: \n\t--tq - run 2Q cache\n\t -i - run ideal cache.\n";
-        return (int) ERRORS::UNKNOWN_ARGUMENTS;        
+        return cache_type::UNKNOWN_TYPE;        
 }
 
 pair<size_t, vector<int>> get_input_data ()

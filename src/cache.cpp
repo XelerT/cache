@@ -40,17 +40,17 @@ size_t check_data_in_cache (T &cache, std::vector<int> &data)
         return n_cache_hits;
 }
 
-size_t run_cache (pair<size_t, vector<int>> input, const int cache2run)
+size_t run_cache (pair<size_t, vector<int>> input, const cache_type cache2run)
 {
         auto cache_capacity = input.first;
         auto data           = input.second;
 
-        if (cache2run == RUN_2Q_CACHE) {
+        if (cache2run == cache_type::RUN_2Q_CACHE) {
                 caches::two_q<int> cache{cache_capacity};                
                 
                 return check_data_in_cache<caches::two_q<int>>(cache, data);
         }
-        if (cache2run == RUN_IDEAL_CACHE) {
+        if (cache2run == cache_type::RUN_IDEAL_CACHE) {
                 caches::ideal<int> ideal_cache{cache_capacity};
                 ideal_cache.parse_data(data, hash_data);        
                 
