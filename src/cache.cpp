@@ -7,9 +7,7 @@
 #include "cache.hpp"
 #include "ui.hpp"
 
-// static void dump_2q_cache    (caches::two_q<int> const &cache);
-// static void dump_ideal_cache (caches::ideal<int> const &cache);
-// static int get_data          (int key);
+using namespace std;
 
 namespace
 {
@@ -42,18 +40,22 @@ size_t check_data_in_cache (T &cache, std::vector<int> &data)
         return n_cache_hits;
 }
 
-size_t run_cache (input_data_t &inputted_data, int cache2run)
+size_t run_cache (pair<size_t, vector<int>> input, const int cache2run)
 {
+        auto cache_capacity = input.first;
+        auto data           = input.second;
+
         if (cache2run == RUN_2Q_CACHE) {
-                caches::two_q<int> cache{inputted_data.cache_capacity_};                
+                caches::two_q<int> cache{cache_capacity};                
                 
-                return check_data_in_cache<caches::two_q<int>>(cache, inputted_data.data_);
-        } else if (cache2run == RUN_IDEAL_CACHE) {
-                caches::ideal<int> ideal_cache{inputted_data.cache_capacity_};
-                ideal_cache.parse_data(inputted_data.data_, hash_data);        
+                return check_data_in_cache<caches::two_q<int>>(cache, data);
+        }
+        if (cache2run == RUN_IDEAL_CACHE) {
+                caches::ideal<int> ideal_cache{cache_capacity};
+                ideal_cache.parse_data(data, hash_data);        
                 
                 return check_data_in_cache<caches::ideal<int>>(ideal_cache,
-                                                               inputted_data.data_
+                                                               data
                                                                );
         }
 

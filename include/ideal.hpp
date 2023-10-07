@@ -121,7 +121,7 @@ namespace caches
                                 return true;
                         }
 
-                        void dump (caches::ideal<int> const &cache)
+                        void dump (caches::ideal<int> const &cache) const
                         {
                                 std::cout << "cache (" << cache.cache_capacity_ << ") ";
                                 for (auto it = cache.cache_.cbegin(); it != cache.cache_.cend(); it++) {

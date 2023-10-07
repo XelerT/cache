@@ -118,7 +118,7 @@ namespace caches
                                 return true;
                         }
 
-                        void dump (caches::two_q<int> const &cache)
+                        void dump (caches::two_q<int> const &cache) const
                         {
                                 std::cout << "hot (" << cache.hot_cache_capacity_ << ") ";
                                 for (auto it = cache.hot_cache_.cbegin(); it != cache.hot_cache_.cend(); it++) {

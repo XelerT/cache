@@ -12,9 +12,7 @@ int main (int argc, char *argv[])
         if (cache2run == (int) ERRORS::UNKNOWN_ARGUMENTS)
                 return (int) ERRORS::UNKNOWN_ARGUMENTS;
 
-        input_data_t inputted_data = {};
-
-        size_t n_cache_hits = run_cache(inputted_data, cache2run);
+        size_t n_cache_hits = run_cache(get_input_data(), cache2run);
         std::cout << n_cache_hits << std::endl;
 
         return 0;
